@@ -1,0 +1,24 @@
+# SPFx build artifacts
+dist/
+lib/
+release/
+solution/
+temp/
+.heft/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.suo
+*.user
+
+.claude/

@@ -1,0 +1,81 @@
+@import './tokens';
+@import './mixins';
+
+// Splide controls the slide width via perPage — the card fills it with width: 100%.
+// The legacy had fixed 180px/150px widths because items were in a plain flex container;
+// here Splide handles that geometry so we let it dictate the width.
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  padding-bottom: $spacing-md;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+// ── Date ─────────────────────────────────────────────────────────────────────
+.date {
+  font-size: 20px;
+  font-weight: bold;
+  color: $color-text;
+  margin: 0 0 $spacing-sm;
+}
+
+// ── Avatar ────────────────────────────────────────────────────────────────────
+.avatarWrapper {
+  margin-top: 32px;
+  width: $avatar-size-lg;
+  height: $avatar-size-lg;
+  border-radius: $border-radius-circle;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar {
+  @include avatar($avatar-size-lg);
+}
+
+// ── Name ──────────────────────────────────────────────────────────────────────
+.name {
+  color: $color-primary;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 18px;
+  line-height: 1.3;
+}
+
+// ── Job title ─────────────────────────────────────────────────────────────────
+.jobTitle {
+  font-size: $font-size-small;
+  color: $color-text-light;
+  margin: 0 0 $spacing-md;
+  line-height: 1.3;
+}
+
+// ── Greet button ──────────────────────────────────────────────────────────────
+.greetButton {
+  @include btn-base;
+  width: 100%;
+  font-size: $font-size-small;
+  padding: $spacing-sm $spacing-md;
+}
+
+.greetButtonEnabled {
+  background: $color-primary;
+
+  &:hover { background: $color-primary-dark; opacity: 1; }
+}
+
+.greetButtonDisabled {
+  background: $color-text-light;
+  cursor: not-allowed;
+  opacity: 0.6;
+}

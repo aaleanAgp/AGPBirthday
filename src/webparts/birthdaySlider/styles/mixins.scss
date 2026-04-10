@@ -1,0 +1,72 @@
+@import './tokens';
+
+// ─── FLEX HELPERS ─────────────────────────────────────────────────────────────
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-row($gap: 0) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @if $gap > 0 { gap: $gap; }
+}
+
+// ─── RESPONSIVE ───────────────────────────────────────────────────────────────
+// Usage: @include respond-below('md') { ... }
+@mixin respond-below($bp) {
+  @if $bp == 'sm'  { @media (max-width: #{$bp-sm})  { @content; } }
+  @else if $bp == 'md'  { @media (max-width: #{$bp-md})  { @content; } }
+  @else if $bp == 'lg'  { @media (max-width: #{$bp-lg})  { @content; } }
+}
+
+// Usage: @include respond-above('xl') { ... }
+@mixin respond-above($bp) {
+  @if $bp == 'xl'  { @media (min-width: #{$bp-xl})  { @content; } }
+  @else if $bp == 'xxl' { @media (min-width: #{$bp-xxl}) { @content; } }
+  @else if $bp == 'md'  { @media (min-width: #{$bp-md})  { @content; } }
+}
+
+// ─── AVATAR ───────────────────────────────────────────────────────────────────
+@mixin avatar($size: $avatar-size-lg) {
+  width: $size;
+  height: $size;
+  border-radius: $border-radius-circle;
+  object-fit: cover;
+  display: block;
+}
+
+// ─── BUTTON BASE ──────────────────────────────────────────────────────────────
+@mixin btn-base {
+  color: $color-white;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-base;
+  font-family: $font-family;
+  text-decoration: none;
+  padding: 16px 15px;
+  border-radius: $border-radius-btn;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+
+  &:hover:not(:disabled) { opacity: 0.85; }
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+}
+
+// ─── MODAL OVERLAY ────────────────────────────────────────────────────────────
+@mixin modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  background: $color-overlay;
+  z-index: $z-overlay;
+  overflow: auto;
+}

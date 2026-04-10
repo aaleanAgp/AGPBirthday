@@ -1,0 +1,247 @@
+@import './tokens';
+@import './mixins';
+
+// Mirrors legacy .modal-windows structure
+.overlay {
+  @include modal-overlay;
+  z-index: $z-modal;
+  transition: opacity 0.3s ease;
+}
+
+.modal {
+  background-color: $color-white;
+  width: 100%;
+  max-width: 600px;
+  padding: $spacing-md;
+  position: relative;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+  max-height: 92vh;
+  overflow-y: auto;
+  animation: slideIn 0.25s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Modal header banner (replicates the top image in legacy) ──────────────────
+.modalBanner {
+  max-width: 100%;
+  height: 40px;
+  object-fit: cover;
+  width: 100%;
+  object-position: center;
+  border-radius: $border-radius-lg $border-radius-lg 0 0;
+  display: block;
+  background-color: $color-primary-light;
+}
+
+// ── Inner body (replicates .cumpleanios__item padding) ────────────────────────
+.body {
+  padding: $spacing-md 30px;
+}
+
+// ── Recipient info ────────────────────────────────────────────────────────────
+.profileInfo {
+  text-align: center;
+
+  @include respond-above('md') {
+    text-align: left;
+  }
+}
+
+.profileContent {
+  display: block;
+
+  @include respond-above('md') {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.profileAvatar {
+  @include avatar($avatar-size-md);
+  margin: 0 auto $spacing-md;
+
+  @include respond-above('md') {
+    margin-left: 32px;
+    margin-right: 52px;
+    margin-bottom: 0;
+  }
+}
+
+.profileName {
+  margin-top: $spacing-sm;
+  margin-bottom: $spacing-sm;
+  font-weight: 600;
+  font-size: $font-size-subtitle;
+  color: $color-text;
+}
+
+.profileDate {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: $spacing-sm;
+  color: $color-text;
+}
+
+// ── Section title ────────────────────────────────────────────────────────────
+.sectionTitle {
+  color: $color-primary;
+  text-align: center;
+  font-size: 20px;
+  margin-top: $spacing-md;
+  margin-bottom: $spacing-sm;
+}
+
+// ── Card options grid ─────────────────────────────────────────────────────────
+// Replicates legacy .options-emails layout with custom radio buttons
+.cardOptions {
+  padding-top: $spacing-md;
+  padding-bottom: $spacing-md;
+  text-align: center;
+
+  @include respond-above('md') {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+  }
+}
+
+.cardOption {
+  display: inline-block;
+  margin-bottom: $spacing-md;
+  cursor: pointer;
+  padding: $spacing-sm;
+  border-radius: $border-radius-sm;
+  transition: background-color 0.15s ease;
+
+  @include respond-above('md') {
+    margin-bottom: 0;
+  }
+
+  &:hover { background-color: $color-primary-light; }
+}
+
+.cardOptionSelected {
+  background-color: $color-primary-light;
+  outline: 2px solid $color-primary;
+  border-radius: $border-radius-sm;
+}
+
+// Hide the native radio input but keep it accessible
+.radioInput {
+  position: absolute;
+  left: -9999px;
+}
+
+.cardIcon {
+  display: block;
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: $spacing-xs;
+
+  img {
+    width: 100px;
+    padding: 0 5px;
+
+    @include respond-below('sm') {
+      width: 57px;
+    }
+  }
+}
+
+.cardName {
+  display: block;
+  font-size: $font-size-small;
+  color: $color-text;
+  font-weight: 500;
+}
+
+// ── Textarea ──────────────────────────────────────────────────────────────────
+.messageLabel {
+  font-weight: bold;
+  margin-top: $spacing-sm;
+  margin-bottom: $spacing-sm;
+  display: block;
+}
+
+.textarea {
+  width: 100%;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  height: 100px;
+  border: 1px solid $color-primary;
+  font-family: $font-family;
+  font-size: $font-size-base;
+  color: $color-text;
+  resize: vertical;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px $color-primary-light;
+  }
+
+  &:disabled { background-color: $color-bg-card; cursor: not-allowed; }
+}
+
+.charCount {
+  font-size: $font-size-xs;
+  color: $color-text-light;
+  text-align: right;
+  margin: $spacing-xs 0 0;
+}
+
+// ── Validation / error ────────────────────────────────────────────────────────
+.errorMsg {
+  color: $color-error;
+  font-size: $font-size-small;
+  font-weight: 500;
+  margin: $spacing-sm 0;
+  padding: $spacing-xs $spacing-sm;
+  background-color: $color-error-bg;
+  border-radius: $border-radius-sm;
+}
+
+// ── Action buttons ────────────────────────────────────────────────────────────
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 122px;
+  margin-top: $spacing-lg;
+
+  @include respond-below('sm') {
+    gap: 22px;
+  }
+}
+
+.btnCancel {
+  @include btn-base;
+  background: $color-text-light;
+}
+
+.btnSend {
+  @include btn-base;
+  background: $color-primary;
+
+  &:hover:not(:disabled) { background: $color-primary-dark; opacity: 1; }
+}
+
+// ── Close button ──────────────────────────────────────────────────────────────
+.closeButton {
+  position: absolute;
+  top: $spacing-sm;
+  right: $spacing-sm;
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: $color-text-light;
+  padding: $spacing-xs $spacing-sm;
+  z-index: 1;
+
+  &:hover { color: $color-text; }
+}

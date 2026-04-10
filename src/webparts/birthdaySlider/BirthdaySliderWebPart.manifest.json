@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/core-build/module-config.schema.json",
+  "id": "dbbe8d3d-985c-48cb-8e8a-9b213498ceb6",
+  "alias": "BirthdaySliderWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab"
+  ],
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "Otros" },
+      "title": { "default": "Birthday Slider" },
+      "description": { "default": "Muestra los próximos cumpleaños en formato carrusel con opción de enviar saludos." },
+      "officeFabricIconFontName": "BirthdayCake",
+      "properties": {
+        "siteUrl": "",
+        "listName": "Colaborador",
+        "configListName": "Configuracion",
+        "cardListName": "Tarjeta",
+        "auditListName": "Auditoria",
+        "logListName": "Log"
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+// ─── COLOR TOKENS ────────────────────────────────────────────────────────────
+// Primary brand color recovered from legacy main.css
+$color-primary:       #8fc5cf;
+$color-primary-dark:  #6aa8b4;
+$color-primary-light: #c9e5ea;
+
+// Text palette from legacy
+$color-text:          #4d4d4d;
+$color-text-light:    #b3b3b3;
+
+// Backgrounds
+$color-bg-card:       #f2f2f2;
+$color-white:         #ffffff;
+
+// Feedback
+$color-error:         #d32f2f;
+$color-error-bg:      #fce4e4;
+$color-success-bg:    #e8f5e9;
+$color-success:       #2e7d32;
+
+// Overlay
+$color-overlay:       rgba(0, 0, 0, 0.4);
+
+// ─── TYPOGRAPHY ──────────────────────────────────────────────────────────────
+$font-family:         'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$font-size-title:     45px;
+$font-size-subtitle:  18px;
+$font-size-base:      14px;
+$font-size-small:     13px;
+$font-size-xs:        12px;
+
+// ─── SPACING ─────────────────────────────────────────────────────────────────
+$spacing-xs:  4px;
+$spacing-sm:  8px;
+$spacing-md:  15px;
+$spacing-lg:  24px;
+$spacing-xl:  32px;
+$spacing-xxl: 54px;
+
+// ─── BORDERS & RADII ─────────────────────────────────────────────────────────
+$border-radius-sm:     5px;
+$border-radius-md:     10px;
+$border-radius-lg:     12px;
+$border-radius-btn:    22px;
+$border-radius-circle: 50%;
+
+// ─── AVATAR ──────────────────────────────────────────────────────────────────
+$avatar-size-lg: 155px;
+$avatar-size-md: 120px;
+$avatar-size-sm:  64px;
+
+// ─── LAYOUT ──────────────────────────────────────────────────────────────────
+$max-width:      1266px;
+$banner-height:  120px;
+
+// ─── Z-INDEX ─────────────────────────────────────────────────────────────────
+$z-overlay:  998;
+$z-modal:    999;
+$z-loader:   1000;
+
+// ─── BREAKPOINTS ─────────────────────────────────────────────────────────────
+$bp-sm:  750px;
+$bp-md:  992px;
+$bp-lg:  1200px;
+$bp-xl:  1300px;
+$bp-xxl: 1667px;

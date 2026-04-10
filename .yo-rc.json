@@ -1,0 +1,20 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.12.1",
+    "packageManager": "npm",
+    "solutionName": "agp-birthday-widget",
+    "solutionShortDescription": "AGP Birthday Widget",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart",
+    "template": "react",
+    "componentName": "BirthdaySlider",
+    "componentDescription": "AGP Birthday Slider WebPart",
+    "environment": "spo",
+    "libraryName": "agp-birthday-widget",
+    "libraryId": "c28e30d4-03f8-44ab-8ac6-4544af507bbd",
+    "version": "1.18.2"
+  }
+}

@@ -1,0 +1,22 @@
+@import './tokens';
+@import './mixins';
+
+.emptyState {
+  @include flex-center;
+  flex-direction: column;
+  padding: $spacing-xxl $spacing-md;
+  gap: $spacing-md;
+  text-align: center;
+  color: $color-text-light;
+}
+
+.icon {
+  font-size: 48px;
+  line-height: 1;
+  display: block;
+}
+
+.message {
+  font-size: $font-size-base;
+  margin: 0;
+}

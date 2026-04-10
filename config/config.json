@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/core-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "birthday-slider-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/birthdaySlider/BirthdaySliderWebPart.js",
+          "manifest": "./src/webparts/birthdaySlider/BirthdaySliderWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "BirthdaySliderWebPartStrings": "lib/webparts/birthdaySlider/loc/{locale}.js"
+  }
+}

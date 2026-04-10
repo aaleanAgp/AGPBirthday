@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "agp-birthday-widget-client-side-solution",
+    "id": "c28e30d4-03f8-44ab-8ac6-4544af507bbd",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.18.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "AGP Birthday Widget - Birthday Slider"
+      },
+      "longDescription": {
+        "default": "Displays upcoming birthdays in a slider/carousel format with greeting capabilities via Microsoft Graph."
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "webApiPermissionRequests": [
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Mail.Send"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "User.Read"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/agp-birthday-widget.sppkg"
+  }
+}

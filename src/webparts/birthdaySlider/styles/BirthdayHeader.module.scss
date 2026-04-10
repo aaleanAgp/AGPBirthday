@@ -1,0 +1,77 @@
+@import './tokens';
+@import './mixins';
+
+.header {
+  width: 100%;
+  margin-bottom: $spacing-lg;
+}
+
+// Banner image — actual image provided via siteUrl prop or web part assets
+// SUPUESTO: banner image is a SharePoint asset. Replace $url placeholder in component.
+.banner {
+  margin-top: $spacing-md;
+  width: 100%;
+  height: $banner-height;
+  background-color: $color-primary-light; // placeholder color if image not loaded
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  img {
+    max-width: 100%;
+    width: 100%;
+    height: $banner-height;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+
+    @include respond-below('sm') {
+      height: auto;
+    }
+  }
+}
+
+.titleSection {
+  text-align: center;
+  padding: $spacing-lg $spacing-md $spacing-md;
+}
+
+.title {
+  font-size: $font-size-title;
+  font-weight: 600;
+  color: $color-text;
+  margin: $spacing-lg 0 $spacing-lg;
+
+  @include respond-below('sm') {
+    font-size: 25px;
+  }
+}
+
+.description {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: $font-size-base;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.subtitle {
+  font-size: $font-size-base;
+  color: $color-text;
+  margin: 0;
+}
+
+.link {
+  color: $color-primary;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: $font-size-base;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+    color: $color-primary-dark;
+  }
+}
