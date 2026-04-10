@@ -1,13 +1,13 @@
 /* tslint:disable */
 require("./BirthdayHeader.module.css");
 const styles = {
-  header: 'header_93bb4ec1',
-  banner: 'banner_93bb4ec1',
-  titleSection: 'titleSection_93bb4ec1',
-  title: 'title_93bb4ec1',
-  description: 'description_93bb4ec1',
-  subtitle: 'subtitle_93bb4ec1',
-  link: 'link_93bb4ec1'
+  header: 'header_a7d6ae88',
+  banner: 'banner_a7d6ae88',
+  titleSection: 'titleSection_a7d6ae88',
+  title: 'title_a7d6ae88',
+  description: 'description_a7d6ae88',
+  subtitle: 'subtitle_a7d6ae88',
+  link: 'link_a7d6ae88'
 };
 
 export default styles;

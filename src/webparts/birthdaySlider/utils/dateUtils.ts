@@ -3,10 +3,10 @@
  */
 export function formatBirthdayDate(day: number, month: number): string {
   const monthNames = [
-    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
   ];
-  return `${day} de ${monthNames[month - 1]}`;
+  return `${monthNames[month - 1].toUpperCase()}., ${day}`;
 }
 
 /**

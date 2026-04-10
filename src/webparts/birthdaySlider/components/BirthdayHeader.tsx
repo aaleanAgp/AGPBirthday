@@ -8,14 +8,8 @@ interface IBirthdayHeaderProps {
   linkUrl: string;
 }
 
-/**
- * Renders the banner image, title, subtitle and "View all" link.
- *
- * TODO: Replace the banner placeholder with an actual image asset from SharePoint.
- * Legacy path was relative to the bundle (e.g. ../images/banner.png).
- * Recommended: upload banner to the site assets library and reference via an
- * absolute URL, or configure it via the web part property pane.
- */
+const BANNER_URL = 'https://agpglass.sharepoint.com/sites/AGPNewsColombia/Recursos/images/banner.png';
+
 const BirthdayHeader: React.FC<IBirthdayHeaderProps> = ({
   title,
   subtitle,
@@ -24,7 +18,7 @@ const BirthdayHeader: React.FC<IBirthdayHeaderProps> = ({
 }) => (
   <div className={styles.header}>
     <div className={styles.banner} aria-hidden="true">
-      {/* TODO: <img src="BANNER_URL" alt="" /> */}
+      <img src={BANNER_URL} alt="" />
     </div>
     <div className={styles.titleSection}>
       <h2 className={styles.title}>{title}</h2>

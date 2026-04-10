@@ -60,35 +60,26 @@
   // ── Splide overrides (via :global to escape CSS Module scoping) ────────────
   // These replicate the legacy .cumpleanios__wrapper__carousel styles
   :global(.splide__arrow) {
-    width: 35px;
+    width: 60px;
     height: 60px;
     border-radius: 0;
     background-color: transparent;
     opacity: 1;
 
-    // Hide the built-in SVG arrows; legacy used custom PNG images.
-    // TODO: Replace with actual arrow PNGs placed in src/assets/
-    svg { display: none; }
-
-    &::after {
-      content: '';
+    svg { 
       display: block;
-      width: 35px;
+      width: 60px;
       height: 60px;
-      background-color: $color-primary;
-      clip-path: polygon(0 50%, 100% 0, 100% 100%);
+      fill: #baddde;
+      transition: fill 0.3s;
     }
 
-    &:hover::after { background-color: $color-primary-dark; }
+    &:hover svg { fill: #8fc5cf; }
     &:disabled { opacity: 0.3; }
   }
 
   :global(.splide__arrow--prev) {
     left: -10px;
-
-    &::after {
-      clip-path: polygon(100% 50%, 0 0, 0 100%);
-    }
 
     @include respond-above('xl')  { left: -30px; }
     @include respond-above('xxl') { left: -100px; }
@@ -102,8 +93,8 @@
   }
 
   :global(.splide__track) {
-    // Ensure cards are not clipped by overflow
-    overflow: visible !important;
+    // Ensure cards are clipped so they don't overlap into other lines if screen shrinks
+    overflow: hidden !important;
     padding: $spacing-sm 0 !important;
   }
 

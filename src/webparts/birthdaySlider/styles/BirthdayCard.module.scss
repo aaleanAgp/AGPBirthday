@@ -22,7 +22,7 @@
 
 // ── Date ─────────────────────────────────────────────────────────────────────
 .date {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: $color-text;
   margin: 0 0 $spacing-sm;
@@ -30,25 +30,30 @@
 
 // ── Avatar ────────────────────────────────────────────────────────────────────
 .avatarWrapper {
-  margin-top: 32px;
-  width: $avatar-size-lg;
-  height: $avatar-size-lg;
+  margin-top: 24px;
+  width: 115px; // Make avatars smaller to fit 6 per page gracefully
+  height: 115px;
+  max-width: 100%;
   border-radius: $border-radius-circle;
   overflow: hidden;
   flex-shrink: 0;
 }
 
 .avatar {
-  @include avatar($avatar-size-lg);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 // ── Name ──────────────────────────────────────────────────────────────────────
 .name {
-  color: $color-primary;
-  font-size: 15px;
-  font-weight: 600;
-  margin-top: 24px;
-  margin-bottom: 18px;
+  color: #76c1ce;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 16px;
+  margin-bottom: 8px;
   line-height: 1.3;
 }
 
@@ -56,6 +61,7 @@
 .jobTitle {
   font-size: $font-size-small;
   color: $color-text-light;
+  text-transform: uppercase;
   margin: 0 0 $spacing-md;
   line-height: 1.3;
 }
@@ -63,8 +69,8 @@
 // ── Greet button ──────────────────────────────────────────────────────────────
 .greetButton {
   @include btn-base;
-  width: 100%;
-  font-size: $font-size-small;
+  width: 90%;
+  font-size: $font-size-xs;
   padding: $spacing-sm $spacing-md;
 }
 
