@@ -9,8 +9,8 @@ interface IConfigItem {
 
 // Sensible defaults used when the list is unreachable or a key is missing
 export const DEFAULT_CONFIG: IBirthdayConfig = {
-  titleSlider: 'Próximos Cumpleaños',
-  subtitleSlider: '¡Celebremos juntos!',
+  titleSlider: 'Cumpleaños AGPEOPLE',
+  subtitleSlider: '¡Felicidades a nuestros próximos cumpleañeros! Conócelos aquí:',
   linkSlider: '',
   titlePopup: '¡Envía un saludo!',
   subtitlePopup: 'Elige una tarjeta y escribe tu mensaje',
@@ -18,7 +18,7 @@ export const DEFAULT_CONFIG: IBirthdayConfig = {
   emailPopup: '',
   buttonCancel: 'Cancelar',
   buttonSend: 'Enviar saludo',
-  buttonSlider: 'Ver todos',
+  buttonSlider: 'Ver todos los cumpleaños',
   validateCard: 'Por favor selecciona una tarjeta.',
   validateMessage: 'Por favor escribe un mensaje.',
   messageSuccess: '¡Saludo enviado con éxito!',

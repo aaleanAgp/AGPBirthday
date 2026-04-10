@@ -44,7 +44,7 @@ import { AuditService, MockAuditService } from './services/AuditService';
 // TOGGLE: Set to true to connect to real SharePoint lists and Microsoft Graph.
 // Keep false during development or when lists / API permissions are not ready.
 // ─────────────────────────────────────────────────────────────────────────────
-const USE_REAL_DATA = false;
+const USE_REAL_DATA = true;
 
 export interface IBirthdaySliderWebPartProps {
   siteUrl: string;

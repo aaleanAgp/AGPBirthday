@@ -26,32 +26,66 @@ export class BirthdayService implements IBirthdayService {
 
   async getUpcomingBirthdays(limit = 10): Promise<IBirthdayPerson[]> {
     // SUPUESTO: filtering by EstadoMaestra text 'Activo'. Adjust if it's a boolean column.
-    const items = await this.repository.getListItems<IColaboradorItem>(
-      this.listName,
-      ['Id', 'NombreTrabajador', 'Cargo', 'Correo', 'IdArea', 'Fecha', 'Dia', 'EstadoMaestra'],
-      undefined,  // No server-side filter — client filters by isActive after mapping
-      'NombreTrabajador asc'
+    // Eliminados los parámetros 'select' y 'orderby' porque generan HTTP 400 si
+    // los nombres internos de las columnas en SharePoint difieren de lo esperado.
+    // Cast to any since SharePoint doesn't strictly match the previous interface 
+    // due to internal name differences.
+    const items = await this.repository.getListItems<any>(
+      this.listName
     );
 
     const people: IBirthdayPerson[] = items
-      .map(item => {
-        const parsed = parseSPDate(item.Fecha);
-        if (!parsed) return null;
-
+      .map((item: any) => {
+        const estado = item.Estado || item.EstadoMaestra || String(item.OData__Status || '');
         const isActive =
-          item.EstadoMaestra === 'Activo' ||
-          item.EstadoMaestra === true ||
-          item.EstadoMaestra === 'true';
+          estado === 'On' ||
+          estado === 'Activo' ||
+          estado === true ||
+          estado === 'true';
+
+        // Priorizamos los nombres internos que SharePoint acostumbra a usar cuando
+        // creas una columna llamada "Nombres y Apellidos". 
+        let nombre = item.Nombres_x0020_y_x0020_Apellidos || 
+                     item.Nombres_x0020_y_x0020_Apelli || 
+                     item.NombresyApellidos || 
+                     item.NombresYApellidos || 
+                     item.NombreTrabajador || 
+                     item.Title || '';
+                     
+        if (nombre === 'Ver Detalle' || nombre === 'Ver detalle') {
+            nombre = 'Sin Nombre (Revisar Nombre Interno)';
+        }
+
+        let day = parseInt(item.Dia, 10);
+        let month = parseInt(item.Mes, 10);
+
+        // Si la columna Mes no viene como número, intentemos el parseo viejo
+        if (isNaN(day) || isNaN(month)) {
+          const parsed = parseSPDate(item.Fecha);
+          if (parsed) {
+            day = parsed.day;
+            month = parsed.month;
+          } else if (item.Fecha && typeof item.Fecha === 'string') {
+            // Intento manual de parsear dd/mm/yyyy si parseSPDate falla (porque parseSPDate busca formato ISO)
+            const parts = item.Fecha.split('/');
+            if (parts.length >= 2) {
+              day = parseInt(parts[0], 10);
+              month = parseInt(parts[1], 10);
+            }
+          }
+        }
+
+        if (!day || !month || isNaN(day) || isNaN(month)) return null;
 
         return {
           id: item.Id,
-          name: item.NombreTrabajador || '',
+          name: nombre,
           jobTitle: item.Cargo || '',
           email: item.Correo || '',
-          areaId: item.IdArea,
-          birthdayDate: new Date(item.Fecha),
-          birthdayDay: item.Dia || parsed.day,
-          birthdayMonth: parsed.month,
+          areaId: item.Area || item.IdArea,
+          birthdayDate: new Date(2000, month - 1, day), // El año no importa, se usa Date para lógica interna de JS
+          birthdayDay: day,
+          birthdayMonth: month,
           isActive
         } as IBirthdayPerson;
       })
