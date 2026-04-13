@@ -158,7 +158,7 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
                   disabled={isSending}
                 />
                 <label htmlFor={`card-${card.id}`} className={styles.cardOption}>
-                  <div className={styles.radioCustom}></div>
+                  <div className={styles.radioCustom} />
                   <span className={styles.cardIcon}>
                     {(card.icon.startsWith('http') || card.icon.startsWith('/')) ? (
                       <img src={card.icon} alt="" />
