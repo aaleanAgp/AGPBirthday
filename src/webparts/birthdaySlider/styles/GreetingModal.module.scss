@@ -1,5 +1,5 @@
-@import './tokens';
-@import './mixins';
+@import './tokens.module.scss';
+@import './mixins.module.scss';
 
 // Mirrors legacy .modal-windows structure
 .overlay {

@@ -1,18 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IBirthdayPerson } from '../models/BirthdayPerson';
 import { ISharePointRepository } from '../repositories/SharePointRepository';
 import { parseSPDate } from '../utils/dateUtils';
 import { getUpcomingBirthdays } from '../utils/birthdayRules';
 
-interface IColaboradorItem {
-  Id: number;
-  NombreTrabajador: string;
-  Cargo: string;
-  Correo: string;
-  IdArea?: string;
-  Fecha: string;      // ISO date — birthday month/day extracted from here
-  Dia?: number;       // Optional: if stored separately as a number
-  EstadoMaestra: string | boolean;
-}
+
 
 export interface IBirthdayService {
   getUpcomingBirthdays(limit?: number): Promise<IBirthdayPerson[]>;

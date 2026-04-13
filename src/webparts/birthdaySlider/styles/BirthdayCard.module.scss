@@ -1,5 +1,5 @@
-@import './tokens';
-@import './mixins';
+@import './tokens.module.scss';
+@import './mixins.module.scss';
 
 // Splide controls the slide width via perPage — the card fills it with width: 100%.
 // The legacy had fixed 180px/150px widths because items were in a plain flex container;

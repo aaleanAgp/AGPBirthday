@@ -1,5 +1,5 @@
-@import './tokens';
-@import './mixins';
+@import './tokens.module.scss';
+@import './mixins.module.scss';
 
 // ── Splide base CSS (inlined to avoid require() in TSX which TS rejects in SPFx) ──
 // Source: @splidejs/splide/dist/css/splide-core.min.css

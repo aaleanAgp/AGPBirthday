@@ -1,15 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IGreetingCardTemplate } from '../models/GreetingCardTemplate';
 import { ISharePointRepository } from '../repositories/SharePointRepository';
 
-interface ITarjetaItem {
-  Id: number;
-  NombreBreve: string;
-  Asunto: string;
-  Cuerpo: string;
-  Icono: string;
-  Orden?: number;
-  EstadoMaestra: string | boolean;
-}
+
 
 export interface ICardTemplateService {
   getActiveTemplates(): Promise<IGreetingCardTemplate[]>;
