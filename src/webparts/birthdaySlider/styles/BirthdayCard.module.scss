@@ -31,9 +31,10 @@
 // ── Avatar ────────────────────────────────────────────────────────────────────
 .avatarWrapper {
   margin-top: 24px;
-  width: 115px; // Make avatars smaller to fit 6 per page gracefully
-  height: 115px;
-  max-width: 100%;
+  width: 155px; // Matches the exact size shown in the original DOM
+  min-width: 155px; // Previene que el navegador lo aplaste horizontalmente a 120px
+  height: 155px;
+  min-height: 155px;
   border-radius: $border-radius-circle;
   overflow: hidden;
   flex-shrink: 0;

@@ -110,31 +110,57 @@
   }
 }
 
-.cardOption {
+.cardOptionWrapper {
   display: inline-block;
   margin-bottom: $spacing-md;
   cursor: pointer;
   padding: $spacing-sm;
   border-radius: $border-radius-sm;
-  transition: background-color 0.15s ease;
 
   @include respond-above('md') {
     margin-bottom: 0;
   }
-
-  &:hover { background-color: $color-primary-light; }
 }
 
-.cardOptionSelected {
-  background-color: $color-primary-light;
-  outline: 2px solid $color-primary;
-  border-radius: $border-radius-sm;
+.cardOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 }
 
-// Hide the native radio input but keep it accessible
+// ── Custom Radio Buttons (legacy match) ───────────────────────────────────────
 .radioInput {
   position: absolute;
   left: -9999px;
+}
+
+.radioCustom {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid $color-primary-light;
+  margin-bottom: 15px; // Space between radio and image
+  position: relative;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+// When the hidden radio input is checked, style the adjacent label's .radioCustom
+.radioInput:checked + label .radioCustom {
+  border-color: $color-primary;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: $color-primary;
+    border-radius: 50%;
+  }
 }
 
 .cardIcon {
@@ -168,12 +194,16 @@
   display: block;
 }
 
+.textareaWrapper {
+  margin-bottom: $spacing-md;
+}
+
 .textarea {
   width: 100%;
   padding: $spacing-md;
-  border-radius: $border-radius-md;
-  height: 100px;
-  border: 1px solid $color-primary;
+  border-radius: 8px; // Matching the rounded corners in the picture
+  height: 120px;
+  border: 2px solid $color-primary; // Using the theme's primary color for the border
   font-family: $font-family;
   font-size: $font-size-base;
   color: $color-text;
@@ -181,7 +211,7 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px $color-primary-light;
+    box-shadow: 0 0 0 1px $color-primary;
   }
 
   &:disabled { background-color: $color-bg-card; cursor: not-allowed; }

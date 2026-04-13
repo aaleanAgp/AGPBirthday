@@ -31,15 +31,17 @@ const BirthdayCarousel: React.FC<IBirthdayCarouselProps> = ({ people, siteUrl, o
     type: 'slide',
     perPage: 6,
     perMove: 1,
-    gap: '24px',
+    gap: '48px', // Aumentado al doble para darles el aire característico de la original
     arrows: true,
     arrowPath: 'm15.5 0.932-4.3 4.38 14.5 14.6-14.5 14.5 4.3 4.4 14.6-14.6 4.4-4.3-4.4-4.4-14.6-14.6z',
     pagination: false,
     rewind: false,
     breakpoints: {
-      1200: { perPage: 5 },
-      992:  { perPage: 4 },
-      750:  { perPage: 2 }
+      1500: { perPage: 5 },
+      1250: { perPage: 4 },
+      1000: { perPage: 3 },
+      750:  { perPage: 2 },
+      500:  { perPage: 1 }
     }
   };
 

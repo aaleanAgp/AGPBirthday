@@ -45,7 +45,7 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
 
   const photoUrl = imgError
     ? getFallbackPhotoUrl(siteUrl)
-    : getProfilePhotoUrl(person.email, siteUrl, 'M');
+    : getProfilePhotoUrl(person.email, siteUrl, 'L');
 
   const selectedCard = cardTemplates.find(c => c.id === selectedCardId) || null;
 
@@ -92,8 +92,11 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
           ×
         </button>
 
-        {/* TODO: Replace placeholder background with actual modal banner image */}
-        <div className={styles.modalBanner} aria-hidden="true" />
+        <img
+          src="/sites/AGPNewsColombia/Recursos/images/banner1.jpg"
+          alt="Banner de cumpleaños"
+          className={styles.modalBanner}
+        />
 
         <div className={styles.body}>
 
@@ -112,22 +115,37 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
                 </p>
                 <h5 className={styles.profileName}>{person.name}</h5>
                 <p>{person.jobTitle}</p>
+                <p>Contacto: {person.email}</p>
               </div>
             </div>
           </div>
 
-          {/* Section title (from config) */}
-          <h4 className={styles.sectionTitle}>{config.titlePopup}</h4>
+          <h4 className={styles.sectionTitle}>¡HOY ES SU CUMPLEAÑOS!</h4>
 
-          {/* Instruction text */}
-          <p><strong>{config.descriptionPopup}</strong></p>
+          {/* Personal message */}
+          <p className={styles.messageLabel}>Envíale un saludo aquí:</p>
+          <div className={styles.textareaWrapper}>
+            <textarea
+              className={styles.textarea}
+              value={message}
+              onChange={e => {
+                setMessage(e.target.value);
+                setValidationError(null);
+              }}
+              disabled={isSending}
+              maxLength={500}
+              rows={4}
+            />
+            {/* The little lines at the bottom right of the textarea are native resize handles */}
+          </div>
 
           {/* Card template selection */}
+          <p className={styles.messageLabel}>Elige un diseño para tu tarjeta de saludo:</p>
           <div className={styles.cardOptions}>
             {cardTemplates.map(card => (
               <div
                 key={card.id}
-                className={`${styles.cardOption} ${selectedCardId === card.id ? styles.cardOptionSelected : ''}`}
+                className={styles.cardOptionWrapper}
               >
                 <input
                   type="radio"
@@ -140,6 +158,7 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
                   disabled={isSending}
                 />
                 <label htmlFor={`card-${card.id}`} className={styles.cardOption}>
+                  <div className={styles.radioCustom}></div>
                   <span className={styles.cardIcon}>
                     {(card.icon.startsWith('http') || card.icon.startsWith('/')) ? (
                       <img src={card.icon} alt="" />
@@ -147,27 +166,10 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
                       card.icon
                     )}
                   </span>
-                  <span className={styles.cardName}>{card.shortName}</span>
                 </label>
               </div>
             ))}
           </div>
-
-          {/* Personal message */}
-          <p><strong>{config.subtitlePopup}</strong></p>
-          <textarea
-            className={styles.textarea}
-            placeholder="Escribe tu mensaje personal..."
-            value={message}
-            onChange={e => {
-              setMessage(e.target.value);
-              setValidationError(null);
-            }}
-            disabled={isSending}
-            maxLength={500}
-            rows={4}
-          />
-          <p className={styles.charCount}>{message.length}/500</p>
 
           {/* Validation / send errors */}
           {validationError && (

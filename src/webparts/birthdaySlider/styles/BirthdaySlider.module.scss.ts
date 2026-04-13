@@ -1,9 +1,9 @@
 /* tslint:disable */
 require("./BirthdaySlider.module.css");
 const styles = {
-  birthdaySlider: 'birthdaySlider_d417a8be',
-  successBanner: 'successBanner_d417a8be',
-  fadeIn: 'fadeIn_d417a8be'
+  birthdaySlider: 'birthdaySlider_7dd1f6bf',
+  successBanner: 'successBanner_7dd1f6bf',
+  fadeIn: 'fadeIn_7dd1f6bf'
 };
 
 export default styles;
