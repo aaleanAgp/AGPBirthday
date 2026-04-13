@@ -10,11 +10,11 @@
     "isDomainIsolated": false,
     "componentType": "webpart",
     "template": "react",
-    "componentName": "BirthdaySlider",
-    "componentDescription": "AGP Birthday Slider WebPart",
+    "componentName": "BirthdaySliderV2",
+    "componentDescription": "AGP Birthday Slider V2 WebPart",
     "environment": "spo",
     "libraryName": "agp-birthday-widget",
-    "libraryId": "c28e30d4-03f8-44ab-8ac6-4544af507bbd",
+    "libraryId": "ccda5fda-992c-48d7-8938-0aa3e346c283",
     "version": "1.18.2"
   }
 }

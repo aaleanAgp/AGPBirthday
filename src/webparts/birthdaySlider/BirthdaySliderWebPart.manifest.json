@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/core-build/module-config.schema.json",
-  "id": "dbbe8d3d-985c-48cb-8e8a-9b213498ceb6",
-  "alias": "BirthdaySliderWebPart",
+  "id": "01101c3f-539b-4c2a-824a-80818f6d534d",
+  "alias": "BirthdaySliderV2WebPart",
   "componentType": "WebPart",
   "version": "*",
   "manifestVersion": 2,
@@ -16,8 +16,8 @@
     {
       "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
       "group": { "default": "Otros" },
-      "title": { "default": "Birthday Slider" },
-      "description": { "default": "Muestra los próximos cumpleaños en formato carrusel con opción de enviar saludos." },
+      "title": { "default": "Birthday Slider V2" },
+      "description": { "default": "Muestra los proximos cumpleanos en formato carrusel con opcion de enviar saludos. Version renovada." },
       "officeFabricIconFontName": "BirthdayCake",
       "properties": {
         "siteUrl": "",

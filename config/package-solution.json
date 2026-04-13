@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "agp-birthday-widget-client-side-solution",
-    "id": "c28e30d4-03f8-44ab-8ac6-4544af507bbd",
+    "name": "agp-birthday-widget-v2-client-side-solution",
+    "id": "ccda5fda-992c-48d7-8938-0aa3e346c283",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
@@ -37,6 +37,6 @@
     ]
   },
   "paths": {
-    "zippedPackage": "solution/agp-birthday-widget.sppkg"
+    "zippedPackage": "solution/agp-birthday-widget-v2.sppkg"
   }
 }
