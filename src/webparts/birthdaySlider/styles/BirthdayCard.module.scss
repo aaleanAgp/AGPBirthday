@@ -22,7 +22,7 @@
 
 // ── Date ─────────────────────────────────────────────────────────────────────
 .date {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   color: $color-text;
   margin: 0 0 $spacing-sm;
@@ -49,12 +49,12 @@
 
 // ── Name ──────────────────────────────────────────────────────────────────────
 .name {
-  color: #76c1ce;
-  font-size: 14px;
+  color: $color-primary;
+  font-size: 15px;
   text-transform: uppercase;
   font-weight: bold;
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-top: 24px;
+  margin-bottom: 18px;
   line-height: 1.3;
 }
 

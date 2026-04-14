@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IBirthdayPerson } from '../models/BirthdayPerson';
 import { ISharePointRepository } from '../repositories/SharePointRepository';
 import { parseSPDate } from '../utils/dateUtils';
 import { getUpcomingBirthdays } from '../utils/birthdayRules';
-
-
+import { getAllBirthdaysSorted } from '../utils/birthdayAllFilters';
 
 export interface IBirthdayService {
   getUpcomingBirthdays(limit?: number): Promise<IBirthdayPerson[]>;
+  getAllBirthdays(): Promise<IBirthdayPerson[]>;
 }
 
 export class BirthdayService implements IBirthdayService {
@@ -17,107 +17,156 @@ export class BirthdayService implements IBirthdayService {
   ) {}
 
   async getUpcomingBirthdays(limit = 10): Promise<IBirthdayPerson[]> {
-    // SUPUESTO: filtering by EstadoMaestra text 'Activo'. Adjust if it's a boolean column.
-    // Eliminados los parámetros 'select' y 'orderby' porque generan HTTP 400 si
-    // los nombres internos de las columnas en SharePoint difieren de lo esperado.
-    // Cast to any since SharePoint doesn't strictly match the previous interface 
-    // due to internal name differences.
-    const items = await this.repository.getListItems<any>(
-      this.listName
+    const people = await this._loadPeople();
+    return getUpcomingBirthdays(people, limit);
+  }
+
+  async getAllBirthdays(): Promise<IBirthdayPerson[]> {
+    const people = await this._loadPeople();
+    return getAllBirthdaysSorted(people);
+  }
+
+  private async _loadPeople(): Promise<IBirthdayPerson[]> {
+    const items = await this.repository.getListItems<any>(this.listName);
+
+    return items
+      .map((item: any) => this._mapPerson(item))
+      .filter((person): person is IBirthdayPerson => person !== null);
+  }
+
+  private _mapPerson(item: any): IBirthdayPerson | null {
+    const estado = item.Estado || item.EstadoMaestra || String(item.OData__Status || '');
+    const isActive =
+      estado === 'On' ||
+      estado === 'Activo' ||
+      estado === true ||
+      estado === 'true';
+
+    let nombre = item.Nombres_x0020_y_x0020_Apellidos ||
+      item.Nombres_x0020_y_x0020_Apelli ||
+      item.NombresyApellidos ||
+      item.NombresYApellidos ||
+      item.NombreTrabajador ||
+      item.Title || '';
+
+    if (nombre === 'Ver Detalle' || nombre === 'Ver detalle') {
+      nombre = 'Sin Nombre';
+    }
+
+    let day = parseInt(item.Dia, 10);
+    let month = parseInt(item.Mes, 10);
+
+    if (isNaN(day) || isNaN(month)) {
+      const parsed = parseSPDate(item.Fecha);
+      if (parsed) {
+        day = parsed.day;
+        month = parsed.month;
+      } else if (item.Fecha && typeof item.Fecha === 'string') {
+        const parts = item.Fecha.split('/');
+        if (parts.length >= 2) {
+          day = parseInt(parts[0], 10);
+          month = parseInt(parts[1], 10);
+        }
+      }
+    }
+
+    if (!day || !month || isNaN(day) || isNaN(month)) {
+      return null;
+    }
+
+    const areaField = item.Area || item.IdArea || null;
+    const areaId = this._normalizeLookupValue(areaField);
+    const areaName = this._normalizeLookupLabel(
+      item.Area_x003a_Title ||
+      item.IdArea_x003a_Title ||
+      (item.Area && item.Area.Title) ||
+      (item.IdArea && item.IdArea.Title) ||
+      (item.Area && item.Area.lookupValue) ||
+      (item.IdArea && item.IdArea.lookupValue) ||
+      areaField
     );
 
-    const people: IBirthdayPerson[] = items
-      .map((item: any) => {
-        const estado = item.Estado || item.EstadoMaestra || String(item.OData__Status || '');
-        const isActive =
-          estado === 'On' ||
-          estado === 'Activo' ||
-          estado === true ||
-          estado === 'true';
+    return {
+      id: item.Id,
+      name: nombre,
+      jobTitle: item.Cargo || '',
+      email: item.Correo || '',
+      areaId,
+      areaName,
+      birthdayDate: new Date(2000, month - 1, day),
+      birthdayDay: day,
+      birthdayMonth: month,
+      isActive
+    };
+  }
 
-        // Priorizamos los nombres internos que SharePoint acostumbra a usar cuando
-        // creas una columna llamada "Nombres y Apellidos". 
-        let nombre = item.Nombres_x0020_y_x0020_Apellidos || 
-                     item.Nombres_x0020_y_x0020_Apelli || 
-                     item.NombresyApellidos || 
-                     item.NombresYApellidos || 
-                     item.NombreTrabajador || 
-                     item.Title || '';
-                     
-        if (nombre === 'Ver Detalle' || nombre === 'Ver detalle') {
-            nombre = 'Sin Nombre (Revisar Nombre Interno)';
-        }
+  private _normalizeLookupValue(value: any): string | undefined {
+    if (value === undefined || value === null || value === '') {
+      return undefined;
+    }
 
-        let day = parseInt(item.Dia, 10);
-        let month = parseInt(item.Mes, 10);
+    if (typeof value === 'object') {
+      return String(value.Id || value.ID || value.id || value.lookupId || value.lookupValue || value.Title || '');
+    }
 
-        // Si la columna Mes no viene como número, intentemos el parseo viejo
-        if (isNaN(day) || isNaN(month)) {
-          const parsed = parseSPDate(item.Fecha);
-          if (parsed) {
-            day = parsed.day;
-            month = parsed.month;
-          } else if (item.Fecha && typeof item.Fecha === 'string') {
-            // Intento manual de parsear dd/mm/yyyy si parseSPDate falla (porque parseSPDate busca formato ISO)
-            const parts = item.Fecha.split('/');
-            if (parts.length >= 2) {
-              day = parseInt(parts[0], 10);
-              month = parseInt(parts[1], 10);
-            }
-          }
-        }
+    return String(value);
+  }
 
-        if (!day || !month || isNaN(day) || isNaN(month)) return null;
+  private _normalizeLookupLabel(value: any): string | undefined {
+    if (value === undefined || value === null || value === '') {
+      return undefined;
+    }
 
-        return {
-          id: item.Id,
-          name: nombre,
-          jobTitle: item.Cargo || '',
-          email: item.Correo || '',
-          areaId: item.Area || item.IdArea,
-          birthdayDate: new Date(2000, month - 1, day), // El año no importa, se usa Date para lógica interna de JS
-          birthdayDay: day,
-          birthdayMonth: month,
-          isActive
-        } as IBirthdayPerson;
-      })
-      .filter((p): p is IBirthdayPerson => p !== null);
+    if (typeof value === 'object') {
+      return String(value.Title || value.lookupValue || value.value || value.Id || value.id || '');
+    }
 
-    return getUpcomingBirthdays(people, limit);
+    return String(value);
   }
 }
 
-/**
- * Mock implementation — returns realistic fake data.
- * Person at index 0 always has today's birthday so the Greet button is enabled.
- */
 export class MockBirthdayService implements IBirthdayService {
   async getUpcomingBirthdays(limit = 10): Promise<IBirthdayPerson[]> {
-    const today = new Date();
+    const allPeople = this._buildMockPeople();
+    return getUpcomingBirthdays(allPeople, limit);
+  }
 
-    const offsets = [0, 2, 5, 7, 10, 14, 18, 22];
+  async getAllBirthdays(): Promise<IBirthdayPerson[]> {
+    return getAllBirthdaysSorted(this._buildMockPeople());
+  }
+
+  private _buildMockPeople(): IBirthdayPerson[] {
+    const today = new Date();
+    const offsets = [0, 2, 5, 7, 10, 14, 18, 22, 28, 35, 44, 58];
     const names = [
-      { name: 'María González', jobTitle: 'Gerente de Recursos Humanos', email: 'maria.gonzalez@empresa.com' },
-      { name: 'Carlos Ramírez', jobTitle: 'Desarrollador Senior', email: 'carlos.ramirez@empresa.com' },
-      { name: 'Ana Martínez',   jobTitle: 'Diseñadora UX',             email: 'ana.martinez@empresa.com' },
-      { name: 'Luis Pérez',     jobTitle: 'Analista de Datos',         email: 'luis.perez@empresa.com' },
-      { name: 'Sofía Torres',   jobTitle: 'Coordinadora de Proyectos', email: 'sofia.torres@empresa.com' },
-      { name: 'Diego Flores',   jobTitle: 'Arquitecto de Soluciones',  email: 'diego.flores@empresa.com' },
-      { name: 'Valentina Ruiz', jobTitle: 'QA Engineer',               email: 'valentina.ruiz@empresa.com' },
-      { name: 'Andrés Castro',  jobTitle: 'Product Owner',             email: 'andres.castro@empresa.com' }
+      { name: 'Maria Gonzalez', jobTitle: 'Gerente de Recursos Humanos', email: 'maria.gonzalez@empresa.com', areaName: 'Talento Humano' },
+      { name: 'Carlos Ramirez', jobTitle: 'Desarrollador Senior', email: 'carlos.ramirez@empresa.com', areaName: 'Tecnologia' },
+      { name: 'Ana Martinez', jobTitle: 'Disenadora UX', email: 'ana.martinez@empresa.com', areaName: 'Diseno' },
+      { name: 'Luis Perez', jobTitle: 'Analista de Datos', email: 'luis.perez@empresa.com', areaName: 'Analitica' },
+      { name: 'Sofia Torres', jobTitle: 'Coordinadora de Proyectos', email: 'sofia.torres@empresa.com', areaName: 'PMO' },
+      { name: 'Diego Flores', jobTitle: 'Arquitecto de Soluciones', email: 'diego.flores@empresa.com', areaName: 'Arquitectura' },
+      { name: 'Valentina Ruiz', jobTitle: 'QA Engineer', email: 'valentina.ruiz@empresa.com', areaName: 'Calidad' },
+      { name: 'Andres Castro', jobTitle: 'Product Owner', email: 'andres.castro@empresa.com', areaName: 'Producto' },
+      { name: 'Juliana Mejia', jobTitle: 'Lider Comercial', email: 'juliana.mejia@empresa.com', areaName: 'Comercial' },
+      { name: 'Camilo Rojas', jobTitle: 'Consultor BI', email: 'camilo.rojas@empresa.com', areaName: 'BI' },
+      { name: 'Paula Leon', jobTitle: 'Especialista SEO', email: 'paula.leon@empresa.com', areaName: 'Marketing' },
+      { name: 'Ricardo Vega', jobTitle: 'Administrador de Sistemas', email: 'ricardo.vega@empresa.com', areaName: 'Infraestructura' }
     ];
 
-    return offsets.slice(0, limit).map((offset, i) => {
-      const bDate = new Date(today.getTime()); // getTime() avoids TS overload ambiguity with Date arg
-      bDate.setDate(today.getDate() + offset);
+    return offsets.map((offset, index) => {
+      const birthdayDate = new Date(today.getTime());
+      birthdayDate.setDate(today.getDate() + offset);
+
       return {
-        id: i + 1,
-        name: names[i].name,
-        jobTitle: names[i].jobTitle,
-        email: names[i].email,
-        birthdayDate: bDate,
-        birthdayDay: bDate.getDate(),
-        birthdayMonth: bDate.getMonth() + 1,
+        id: index + 1,
+        name: names[index].name,
+        jobTitle: names[index].jobTitle,
+        email: names[index].email,
+        areaId: String(index + 1),
+        areaName: names[index].areaName,
+        birthdayDate,
+        birthdayDay: birthdayDate.getDate(),
+        birthdayMonth: birthdayDate.getMonth() + 1,
         isActive: true
       };
     });

@@ -1,0 +1,198 @@
+﻿@import '../../birthdaySlider/styles/tokens.module.scss';
+@import '../../birthdaySlider/styles/mixins.module.scss';
+
+.birthdayAll {
+  font-family: $font-family;
+  color: $color-text;
+  padding: $spacing-md;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: $border-radius-lg;
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.24), transparent 38%),
+    linear-gradient(135deg, rgba(143, 197, 207, 0.96), rgba(106, 168, 180, 0.96));
+  min-height: 180px;
+  margin-bottom: $spacing-lg;
+}
+
+.heroContent {
+  padding: $spacing-xl;
+  color: $color-white;
+}
+
+.backLink {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: $color-white;
+  font-size: $font-size-base;
+  font-weight: 600;
+  padding: 0;
+  margin-bottom: $spacing-md;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.title {
+  margin: 0 0 $spacing-sm;
+  font-size: 36px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 18px;
+  max-width: 680px;
+}
+
+.filters {
+  background: linear-gradient(180deg, #f8fbfc 0%, #eef6f7 100%);
+  border: 1px solid rgba(143, 197, 207, 0.35);
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-lg;
+}
+
+.filterRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $spacing-md;
+}
+
+.filterBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.label {
+  font-size: $font-size-small;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $color-text;
+  font-weight: 700;
+}
+
+.input {
+  border: 1px solid rgba(77, 77, 77, 0.18);
+  border-radius: $border-radius-md;
+  padding: 12px 14px;
+  font-size: $font-size-base;
+  background: $color-white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary-dark;
+    box-shadow: 0 0 0 3px rgba(143, 197, 207, 0.25);
+  }
+}
+
+.filterActions {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.primaryButton,
+.secondaryButton,
+.pageButton {
+  @include btn-base;
+  min-width: 140px;
+}
+
+.primaryButton,
+.pageButton {
+  background: $color-primary;
+
+  &:hover:enabled {
+    background: $color-primary-dark;
+  }
+}
+
+.secondaryButton {
+  background: $color-white;
+  color: $color-text;
+  border: 1px solid rgba(77, 77, 77, 0.18);
+}
+
+.validationMessage {
+  margin: $spacing-md 0 0;
+  color: $color-error;
+  font-weight: 600;
+}
+
+.resultsHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.resultsText {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.resultsHint {
+  margin: 0;
+  color: $color-text-light;
+  font-size: $font-size-small;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $spacing-lg;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-md;
+  margin-top: $spacing-xl;
+}
+
+.pageStatus {
+  font-size: $font-size-base;
+  font-weight: 600;
+}
+
+@media (max-width: $bp-lg) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: $bp-sm) {
+  .heroContent {
+    padding: $spacing-lg;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .filterRow,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filterActions,
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

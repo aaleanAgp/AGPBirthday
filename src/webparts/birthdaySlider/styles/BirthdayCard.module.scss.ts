@@ -1,16 +1,16 @@
 /* tslint:disable */
 require("./BirthdayCard.module.css");
 const styles = {
-  card: 'card_5bcc3000',
-  content: 'content_5bcc3000',
-  date: 'date_5bcc3000',
-  avatarWrapper: 'avatarWrapper_5bcc3000',
-  avatar: 'avatar_5bcc3000',
-  name: 'name_5bcc3000',
-  jobTitle: 'jobTitle_5bcc3000',
-  greetButton: 'greetButton_5bcc3000',
-  greetButtonEnabled: 'greetButtonEnabled_5bcc3000',
-  greetButtonDisabled: 'greetButtonDisabled_5bcc3000'
+  card: 'card_95d13535',
+  content: 'content_95d13535',
+  date: 'date_95d13535',
+  avatarWrapper: 'avatarWrapper_95d13535',
+  avatar: 'avatar_95d13535',
+  name: 'name_95d13535',
+  jobTitle: 'jobTitle_95d13535',
+  greetButton: 'greetButton_95d13535',
+  greetButtonEnabled: 'greetButtonEnabled_95d13535',
+  greetButtonDisabled: 'greetButtonDisabled_95d13535'
 };
 
 export default styles;

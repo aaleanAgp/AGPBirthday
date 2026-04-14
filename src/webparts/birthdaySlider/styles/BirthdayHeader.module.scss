@@ -33,14 +33,15 @@
 
 .titleSection {
   text-align: center;
-  padding: $spacing-lg $spacing-md $spacing-md;
+  padding: 20px $spacing-md $spacing-md;
 }
 
 .title {
   font-size: $font-size-title;
   font-weight: 600;
   color: $color-text;
-  margin: $spacing-lg 0 $spacing-lg;
+  margin: 20px 0;
+  line-height: 1.1;
 
   @include respond-below('sm') {
     font-size: 25px;
@@ -61,14 +62,25 @@
   font-size: $font-size-base;
   color: $color-text;
   margin: 0;
+  max-width: 760px;
+  line-height: 1.35;
+  font-weight: 400;
+  text-align: left;
+}
+
+.subtitleHighlight {
+  font-weight: 700;
+  color: $color-text;
 }
 
 .link {
-  color: #76c1ce;
+  color: $color-primary;
   text-decoration: none;
   font-weight: bold;
   font-size: $font-size-base;
   white-space: nowrap;
+  align-self: flex-end;
+  padding-bottom: 0;
 
   &:hover {
     text-decoration: underline;

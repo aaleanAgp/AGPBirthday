@@ -143,8 +143,9 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
           <p className={styles.messageLabel}>Elige un diseño para tu tarjeta de saludo:</p>
           <div className={styles.cardOptions}>
             {cardTemplates.map(card => (
-              <div
+              <label
                 key={card.id}
+                htmlFor={`card-${card.id}`}
                 className={styles.cardOptionWrapper}
               >
                 <input
@@ -157,8 +158,8 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
                   className={styles.radioInput}
                   disabled={isSending}
                 />
-                <label htmlFor={`card-${card.id}`} className={styles.cardOption}>
-                  <div className={styles.radioCustom} />
+                <span className={styles.cardOption}>
+                  <span className={styles.radioCustom} />
                   <span className={styles.cardIcon}>
                     {(card.icon.startsWith('http') || card.icon.startsWith('/')) ? (
                       <img src={card.icon} alt="" />
@@ -166,8 +167,8 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
                       card.icon
                     )}
                   </span>
-                </label>
-              </div>
+                </span>
+              </label>
             ))}
           </div>
 

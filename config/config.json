@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://developer.microsoft.com/json-schemas/core-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
@@ -9,10 +9,19 @@
           "manifest": "./src/webparts/birthdaySlider/BirthdaySliderWebPart.manifest.json"
         }
       ]
+    },
+    "birthday-all-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/birthdayAll/BirthdayAllWebPart.js",
+          "manifest": "./src/webparts/birthdayAll/BirthdayAllWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "BirthdaySliderWebPartStrings": "lib/webparts/birthdaySlider/loc/{locale}.js"
+    "BirthdaySliderWebPartStrings": "lib/webparts/birthdaySlider/loc/{locale}.js",
+    "BirthdayAllWebPartStrings": "lib/webparts/birthdayAll/loc/{locale}.js"
   }
 }

@@ -35,4 +35,12 @@ export interface IBirthdayConfig {
   messageSuccess: string;
   messageWarning: string;
   numberOfBirthdays: number;
+  titleAll: string;
+  subtitleAll: string;
+  linkBack: string;
+  startDateAll: string;
+  endDateAll: string;
+  buttonSearchAll: string;
+  searchLabelAll: string;
+  searchPlaceholderAll: string;
 }

@@ -125,6 +125,13 @@ const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
       (context.pageContext && context.pageContext.user && context.pageContext.user.email)
         ? context.pageContext.user.email
         : (config.emailPopup || '');
+    const senderName: string =
+      (context.pageContext && context.pageContext.user && context.pageContext.user.displayName)
+        ? context.pageContext.user.displayName
+        : senderEmail;
+    const senderSiteUserId = context.pageContext && context.pageContext.legacyPageContext
+      ? Number((context.pageContext.legacyPageContext as { userId?: number }).userId)
+      : undefined;
 
     setState(s => ({ ...s, sending: true }));
 
@@ -133,7 +140,9 @@ const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
         recipient: selectedPerson,
         card,
         personalMessage: message,
-        senderEmail
+        senderEmail,
+        senderName,
+        senderSiteUserId: senderSiteUserId && !isNaN(senderSiteUserId) ? senderSiteUserId : undefined
       });
 
       setState(s => ({

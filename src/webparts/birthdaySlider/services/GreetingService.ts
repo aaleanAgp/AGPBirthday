@@ -9,6 +9,8 @@ export interface IGreetingPayload {
   card: IGreetingCardTemplate;
   personalMessage: string;
   senderEmail: string;
+  senderName: string;
+  senderSiteUserId?: number;
 }
 
 export interface IGreetingService {
@@ -28,7 +30,7 @@ export class GreetingService implements IGreetingService {
   ) {}
 
   async sendGreeting(payload: IGreetingPayload): Promise<void> {
-    const { recipient, card, personalMessage, senderEmail } = payload;
+    const { recipient, card, personalMessage, senderEmail, senderName, senderSiteUserId } = payload;
 
     const mail = buildMailContent(card, recipient.name, recipient.email, senderEmail, personalMessage);
 
@@ -45,8 +47,12 @@ export class GreetingService implements IGreetingService {
         recipientName: recipient.name,
         recipientEmail: recipient.email,
         senderEmail,
+        senderName,
+        senderSiteUserId,
+        recipientLookupId: recipient.id,
         cardTemplateId: card.id,
         message: personalMessage,
+        mailBody: mail.body,
         sentDate: new Date()
       })
       .catch(err => console.warn('[GreetingService] Audit write failed (non-critical):', err));

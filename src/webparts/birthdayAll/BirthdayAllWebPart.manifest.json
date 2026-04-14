@@ -1,0 +1,30 @@
+﻿{
+  "$schema": "https://developer.microsoft.com/json-schemas/core-build/module-config.schema.json",
+  "id": "5f5c4af5-a4bb-46ee-a482-6c00f7b9f4b3",
+  "alias": "BirthdayAllV2WebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab"
+  ],
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "Otros" },
+      "title": { "default": "Birthday All V2" },
+      "description": { "default": "Muestra el listado completo de cumpleanos con filtros y busqueda." },
+      "officeFabricIconFontName": "ContactList",
+      "properties": {
+        "siteUrl": "",
+        "listName": "Colaborador",
+        "configListName": "Configuracion",
+        "logListName": "Log"
+      }
+    }
+  ]
+}

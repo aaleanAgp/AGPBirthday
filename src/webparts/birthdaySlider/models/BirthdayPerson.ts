@@ -16,6 +16,7 @@ export interface IBirthdayPerson {
   jobTitle: string;
   email: string;
   areaId?: string;
+  areaName?: string;
   birthdayDate: Date;
   birthdayDay: number;
   birthdayMonth: number;

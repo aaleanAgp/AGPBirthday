@@ -1,4 +1,4 @@
-import { IGreetingAudit } from '../models/GreetingAudit';
+﻿import { IGreetingAudit } from '../models/GreetingAudit';
 import { ISharePointRepository } from '../repositories/SharePointRepository';
 
 export interface IAuditService {
@@ -6,13 +6,11 @@ export interface IAuditService {
 }
 
 /**
- * Writes a greeting audit record to the "Auditoria" SharePoint list.
+ * Writes a greeting audit record to the legacy "Auditoria" SharePoint list.
  *
- * SUPUESTO: column names are:
- *   Title, NombreDestinatario, CorreoDestinatario, CorreoRemitente,
- *   IdTarjeta, Mensaje, FechaEnvio
- *
- * Confirm with SharePoint admin before production deploy.
+ * Expected legacy columns:
+ *   Title (shown as "Ver Detalle"), RemitenteId, DestinatarioId,
+ *   Fecha, IdTarjetaId, Mensaje, Enviado, CuerpoCorreo
  */
 export class AuditService implements IAuditService {
   constructor(
@@ -21,15 +19,28 @@ export class AuditService implements IAuditService {
   ) {}
 
   async recordGreeting(audit: IGreetingAudit): Promise<void> {
-    await this.repository.addListItem(this.listName, {
-      Title: `Saludo a ${audit.recipientName} — ${audit.sentDate.toISOString().substring(0, 10)}`,
-      NombreDestinatario: audit.recipientName,
-      CorreoDestinatario: audit.recipientEmail,
-      CorreoRemitente: audit.senderEmail,
-      IdTarjeta: audit.cardTemplateId,
+    const item: Record<string, unknown> = {
+      Title: 'Ver Detalle',
+      Fecha: audit.sentDate.toISOString(),
+      IdTarjetaId: audit.cardTemplateId,
       Mensaje: audit.message,
-      FechaEnvio: audit.sentDate.toISOString()
-    });
+      Enviado: true,
+      CuerpoCorreo: audit.mailBody
+    };
+
+    if (audit.senderSiteUserId) {
+      item.RemitenteId = audit.senderSiteUserId;
+    } else {
+      item.Remitente = audit.senderName || audit.senderEmail;
+    }
+
+    if (audit.recipientLookupId) {
+      item.DestinatarioId = audit.recipientLookupId;
+    } else {
+      item.Destinatario = audit.recipientName;
+    }
+
+    await this.repository.addListItem(this.listName, item);
   }
 }
 

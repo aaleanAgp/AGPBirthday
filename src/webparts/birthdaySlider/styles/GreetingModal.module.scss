@@ -112,6 +112,7 @@
 
 .cardOptionWrapper {
   display: inline-block;
+  position: relative;
   margin-bottom: $spacing-md;
   cursor: pointer;
   padding: $spacing-sm;
@@ -132,7 +133,19 @@
 // ── Custom Radio Buttons (legacy match) ───────────────────────────────────────
 .radioInput {
   position: absolute;
-  left: -9999px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .radioCustom {
@@ -146,8 +159,8 @@
   transition: all 0.2s ease;
 }
 
-// When the hidden radio input is checked, style the adjacent label's .radioCustom
-.radioInput:checked + label .radioCustom {
+// When the hidden radio input is checked, style the adjacent custom control
+.radioInput:checked + .cardOption .radioCustom {
   border-color: $color-primary;
   
   &::after {
@@ -161,6 +174,10 @@
     background-color: $color-primary;
     border-radius: 50%;
   }
+}
+
+.radioInput:focus + .cardOption .radioCustom {
+  box-shadow: 0 0 0 3px rgba(143, 197, 207, 0.25);
 }
 
 .cardIcon {
