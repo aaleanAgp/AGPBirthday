@@ -48,12 +48,16 @@ export default class BirthdayAllWebPart extends BaseClientSideWebPart<IBirthdayA
     if (USE_REAL_DATA) {
       const repository = new SharePointRepository(this.context, resolvedSiteUrl);
       this._birthdayService = new BirthdayService(repository, this.properties.listName || 'Colaborador');
-      this._configService = new ConfigService(repository, this.properties.configListName || 'Configuracion');
+      this._configService = new ConfigService(
+        repository,
+        this.properties.configListName || 'Configuracion',
+        resolvedSiteUrl
+      );
       return;
     }
 
     this._birthdayService = new MockBirthdayService();
-    this._configService = new MockConfigService();
+    this._configService = new MockConfigService(resolvedSiteUrl);
   }
 
   public render(): void {

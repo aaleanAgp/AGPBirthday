@@ -86,7 +86,11 @@ export default class BirthdaySliderWebPart extends BaseClientSideWebPart<IBirthd
       const mailClient = new GraphMailClient(this.context);
 
       this._birthdayService = new BirthdayService(spRepo, this.properties.listName || 'Colaborador');
-      this._configService   = new ConfigService(spRepo, this.properties.configListName || 'Configuracion');
+      this._configService   = new ConfigService(
+        spRepo,
+        this.properties.configListName || 'Configuracion',
+        resolvedSiteUrl
+      );
       this._cardTemplateService = new CardTemplateService(spRepo, this.properties.cardListName || 'Tarjeta');
       this._greetingService = new GreetingService(mailClient, auditService);
 
@@ -97,7 +101,7 @@ export default class BirthdaySliderWebPart extends BaseClientSideWebPart<IBirthd
       const mailClient   = new MockGraphMailClient();
 
       this._birthdayService    = new MockBirthdayService();
-      this._configService      = new MockConfigService();
+      this._configService      = new MockConfigService(resolvedSiteUrl);
       this._cardTemplateService = new MockCardTemplateService();
       this._greetingService    = new GreetingService(mailClient, auditService);
     }

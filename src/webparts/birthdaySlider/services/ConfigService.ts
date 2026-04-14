@@ -1,5 +1,6 @@
 ﻿import { IBirthdayConfig } from '../models/BirthdayConfig';
 import { ISharePointRepository } from '../repositories/SharePointRepository';
+import { isAbsoluteOrRootUrl, resolveSiteUrlValue } from '../utils/siteUrlUtils';
 
 interface IConfigItem {
   Id: number;
@@ -13,15 +14,15 @@ interface IConfigItem {
 
 export const DEFAULT_CONFIG: IBirthdayConfig = {
   titleSlider: 'Cumpleanos AGPEOPLE',
-  subtitleSlider: 'Felicidades a nuestros proximos cumpleañeros. Conocelos aqui:',
-  linkSlider: 'https://agpglass.sharepoint.com/sites/AGPNewsColombia/SitePages/BirthdayAll.aspx',
+  subtitleSlider: 'Felicidades a nuestros proximos cumpleaneros. Conocelos aqui:',
+  linkSlider: '',
   titlePopup: 'Envia un saludo',
   subtitlePopup: 'Elige una tarjeta y escribe tu mensaje',
-  descriptionPopup: 'Tu saludo llegara al cumpleañero por correo.',
+  descriptionPopup: 'Tu saludo llegara al cumpleanero por correo.',
   emailPopup: '',
   buttonCancel: 'Cancelar',
   buttonSend: '¡Enviar un saludo!',
-  buttonSlider: 'Ver todos los cumpleaños',
+  buttonSlider: 'Ver todos los cumpleanos',
   validateCard: 'Por favor selecciona una tarjeta.',
   validateMessage: 'Por favor escribe un mensaje.',
   messageSuccess: '¡Saludo enviado con exito!',
@@ -44,7 +45,8 @@ export interface IConfigService {
 export class ConfigService implements IConfigService {
   constructor(
     private readonly repository: ISharePointRepository,
-    private readonly listName: string
+    private readonly listName: string,
+    private readonly siteUrl: string
   ) { }
 
   async getConfig(): Promise<IBirthdayConfig> {
@@ -72,16 +74,20 @@ export class ConfigService implements IConfigService {
         const raw = get(key, fallback);
         return this._normalizeRichText(raw, fallback);
       };
-      const isUrlLike = (value: string): boolean => /^(https?:\/\/|\/)/i.test((value || '').trim());
+
       const rawLinkSlider = get('TEXT_LINK_SLIDER', DEFAULT_CONFIG.linkSlider);
-      const rawButtonSlider = get('TEXT_BUTTON_SLIDER', DEFAULT_CONFIG.buttonSlider);
       const rawLinkSliderUrl = get('TEXT_LINK_SLIDER_URL', DEFAULT_CONFIG.linkSlider);
-      const resolvedLinkSlider = isUrlLike(rawLinkSlider)
-        ? rawLinkSlider
-        : (isUrlLike(rawLinkSliderUrl) ? rawLinkSliderUrl : DEFAULT_CONFIG.linkSlider);
-      const resolvedButtonSlider = !isUrlLike(rawLinkSlider) && rawLinkSlider
-        ? rawLinkSlider
-        : rawButtonSlider;
+      const resolvedLinkSlider = resolveSiteUrlValue(
+        this.siteUrl,
+        isAbsoluteOrRootUrl(rawLinkSlider) ? rawLinkSlider : rawLinkSliderUrl,
+        'SitePages/BirthdayAll.aspx'
+      );
+      const resolvedButtonSlider = getText(
+        'TEXT_LINK_SLIDER',
+        !isAbsoluteOrRootUrl(rawLinkSlider) && rawLinkSlider
+          ? rawLinkSlider
+          : DEFAULT_CONFIG.buttonSlider
+      );
 
       return {
         titleSlider: getText('TEXT_TITLE_SLIDER', DEFAULT_CONFIG.titleSlider),
@@ -110,7 +116,10 @@ export class ConfigService implements IConfigService {
       };
     } catch (err) {
       console.warn('[ConfigService] Could not load from SharePoint, using defaults:', err);
-      return DEFAULT_CONFIG;
+      return {
+        ...DEFAULT_CONFIG,
+        linkSlider: resolveSiteUrlValue(this.siteUrl, '', 'SitePages/BirthdayAll.aspx')
+      };
     }
   }
 
@@ -152,7 +161,12 @@ export class ConfigService implements IConfigService {
 }
 
 export class MockConfigService implements IConfigService {
+  constructor(private readonly siteUrl: string = '') { }
+
   async getConfig(): Promise<IBirthdayConfig> {
-    return { ...DEFAULT_CONFIG };
+    return {
+      ...DEFAULT_CONFIG,
+      linkSlider: resolveSiteUrlValue(this.siteUrl, '', 'SitePages/BirthdayAll.aspx')
+    };
   }
 }

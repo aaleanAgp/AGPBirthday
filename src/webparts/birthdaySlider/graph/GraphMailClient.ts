@@ -46,7 +46,7 @@ export class GraphMailClient implements IGraphMailClient {
           }
         ]
       },
-      saveToSentItems: false
+      saveToSentItems: true
     };
 
     await client.api('/me/sendMail').post(payload);

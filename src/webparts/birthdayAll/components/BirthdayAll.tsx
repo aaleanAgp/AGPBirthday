@@ -45,10 +45,8 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
       try {
         setState(previous => ({ ...previous, loading: true, error: null }));
 
-        const [config, people] = await Promise.all([
-          configService.getConfig(),
-          birthdayService.getAllBirthdays()
-        ]);
+        const config = await configService.getConfig();
+        const people = await birthdayService.getAllBirthdays();
 
         if (cancelled) {
           return;
@@ -66,10 +64,11 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
         }
 
         console.error('[BirthdayAll] Failed to load data:', error);
+        const fallbackConfig = await configService.getConfig().catch(() => null);
         setState({
           loading: false,
           people: [],
-          config: null,
+          config: fallbackConfig,
           error: 'No se pudo cargar la lista completa de cumpleanos.'
         });
       }
@@ -150,10 +149,18 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
     );
   }
 
-  if (state.error || !state.config) {
+  if (!state.config) {
     return (
       <div className={styles.birthdayAll}>
-        <EmptyState message={state.error || 'No se encontro configuracion para la vista completa.'} />
+        <EmptyState message="No se encontro configuracion para la vista completa." />
+      </div>
+    );
+  }
+
+  if (state.error) {
+    return (
+      <div className={styles.birthdayAll}>
+        <EmptyState message={state.error} />
       </div>
     );
   }
@@ -238,7 +245,7 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
 
       <section className={styles.resultsHeader}>
         <p className={styles.resultsText}>
-          {filteredPeople.length} cumpleañeros encontrados
+          {filteredPeople.length} cumpleaneros encontrados
         </p>
         {(appliedStartDate || appliedEndDate || searchTerm.trim()) && (
           <p className={styles.resultsHint}>
@@ -248,7 +255,7 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
       </section>
 
       {filteredPeople.length === 0 ? (
-        <EmptyState message="No se encontraron cumpleañeros con los filtros actuales." />
+        <EmptyState message="No se encontraron cumpleaneros con los filtros actuales." />
       ) : (
         <>
           <div className={styles.grid}>

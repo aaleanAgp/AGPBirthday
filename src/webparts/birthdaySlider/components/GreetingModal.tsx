@@ -1,10 +1,11 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { useState } from 'react';
 import { IBirthdayPerson } from '../models/BirthdayPerson';
 import { IBirthdayConfig } from '../models/BirthdayConfig';
 import { IGreetingCardTemplate } from '../models/GreetingCardTemplate';
 import { getProfilePhotoUrl, getFallbackPhotoUrl } from '../utils/photoUtils';
 import { formatBirthdayDate } from '../utils/dateUtils';
+import { buildSiteRelativeUrl } from '../utils/siteUrlUtils';
 import styles from '../styles/GreetingModal.module.scss';
 
 interface IGreetingModalProps {
@@ -23,7 +24,7 @@ interface IGreetingModalProps {
  * Flow:
  *   1. User selects a card template (radio group)
  *   2. User types a personal message (textarea)
- *   3. Validation on submit — both fields required
+ *   3. Validation on submit - both fields required
  *   4. Calls onSend() which delegates to GreetingService
  *
  * All display texts come from IBirthdayConfig (loaded from SharePoint Configuracion list).
@@ -48,6 +49,7 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
     : getProfilePhotoUrl(person.email, siteUrl, 'L');
 
   const selectedCard = cardTemplates.find(c => c.id === selectedCardId) || null;
+  const bannerUrl = buildSiteRelativeUrl(siteUrl, 'Recursos/images/banner1.jpg');
 
   const handleSend = async (): Promise<void> => {
     setValidationError(null);
@@ -89,12 +91,12 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
           disabled={isSending}
           aria-label="Cerrar"
         >
-          ×
+          x
         </button>
 
         <img
-          src="/sites/AGPNewsColombia/Recursos/images/banner1.jpg"
-          alt="Banner de cumpleaños"
+          src={bannerUrl}
+          alt="Banner de cumpleanos"
           className={styles.modalBanner}
         />
 
@@ -120,10 +122,10 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
             </div>
           </div>
 
-          <h4 className={styles.sectionTitle}>¡HOY ES SU CUMPLEAÑOS!</h4>
+          <h4 className={styles.sectionTitle}>!HOY ES SU CUMPLEANOS!</h4>
 
           {/* Personal message */}
-          <p className={styles.messageLabel}>Envíale un saludo aquí:</p>
+          <p className={styles.messageLabel}>Enviale un saludo aqui:</p>
           <div className={styles.textareaWrapper}>
             <textarea
               className={styles.textarea}
@@ -140,7 +142,7 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
           </div>
 
           {/* Card template selection */}
-          <p className={styles.messageLabel}>Elige un diseño para tu tarjeta de saludo:</p>
+          <p className={styles.messageLabel}>Elige un diseno para tu tarjeta de saludo:</p>
           <div className={styles.cardOptions}>
             {cardTemplates.map(card => (
               <label
@@ -205,3 +207,4 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
 };
 
 export default GreetingModal;
+

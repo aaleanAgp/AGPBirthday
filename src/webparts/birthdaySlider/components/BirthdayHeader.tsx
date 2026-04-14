@@ -1,28 +1,31 @@
 ﻿import * as React from 'react';
 import styles from '../styles/BirthdayHeader.module.scss';
+import { buildSiteRelativeUrl } from '../utils/siteUrlUtils';
 
 interface IBirthdayHeaderProps {
+  siteUrl: string;
   title: string;
   subtitle: string;
   linkText: string;
   linkUrl: string;
 }
 
-const BANNER_URL = 'https://agpglass.sharepoint.com/sites/AGPNewsColombia/Recursos/images/banner.png';
 const HIGHLIGHT_PATTERN = /(Con[oó]celos aqu[ií]:?)/i;
 
 const BirthdayHeader: React.FC<IBirthdayHeaderProps> = ({
+  siteUrl,
   title,
   subtitle,
   linkText,
   linkUrl
 }) => {
   const subtitleParts = subtitle.split(HIGHLIGHT_PATTERN);
+  const bannerUrl = buildSiteRelativeUrl(siteUrl, 'Recursos/images/banner.png');
 
   return (
     <div className={styles.header}>
       <div className={styles.banner} aria-hidden="true">
-        <img src={BANNER_URL} alt="" />
+        <img src={bannerUrl} alt="" />
       </div>
       <div className={styles.titleSection}>
         <h2 className={styles.title}>{title}</h2>

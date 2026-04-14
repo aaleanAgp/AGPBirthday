@@ -183,6 +183,7 @@ const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
   return (
     <div className={styles.birthdaySlider}>
       <BirthdayHeader
+        siteUrl={siteUrl}
         title={config.titleSlider}
         subtitle={config.subtitleSlider}
         linkText={config.buttonSlider}
