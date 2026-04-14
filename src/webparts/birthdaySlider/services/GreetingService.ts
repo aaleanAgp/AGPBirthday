@@ -26,7 +26,14 @@ export class GreetingService implements IGreetingService {
   async sendGreeting(payload: IGreetingPayload): Promise<void> {
     const { recipient, card, personalMessage, senderEmail, senderName, senderSiteUserId } = payload;
 
-    const mail = buildMailContent(card, recipient.name, recipient.email, senderEmail, personalMessage);
+    const mail = buildMailContent(
+      card,
+      recipient.name,
+      recipient.email,
+      senderName,
+      senderEmail,
+      personalMessage
+    );
 
     await this.mailClient.sendMail({
       subject: mail.subject,
