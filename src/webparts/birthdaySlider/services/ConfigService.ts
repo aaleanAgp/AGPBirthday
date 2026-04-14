@@ -35,7 +35,12 @@ export const DEFAULT_CONFIG: IBirthdayConfig = {
   endDateAll: 'Fecha final',
   buttonSearchAll: 'Buscar',
   searchLabelAll: 'Buscar cumpleañero',
-  searchPlaceholderAll: 'Nombre, correo o cargo'
+  searchPlaceholderAll: 'Nombre, correo o cargo',
+  buttonClearAll: 'Limpiar filtros',
+  errorDateAll: 'La fecha debe tener formato dd/mm.',
+  paginationPreviousAll: 'Anterior',
+  paginationNextAll: 'Siguiente',
+  resultsCountSuffixAll: 'cumpleaneros encontrados'
 };
 
 export interface IConfigService {
@@ -112,7 +117,12 @@ export class ConfigService implements IConfigService {
         endDateAll: getText('TEXT_ENDDATE_ALL', DEFAULT_CONFIG.endDateAll),
         buttonSearchAll: getText('TEXT_BUTTON_SEARCH', DEFAULT_CONFIG.buttonSearchAll),
         searchLabelAll: getText('TEXT_SEARCH_LABEL_ALL', DEFAULT_CONFIG.searchLabelAll),
-        searchPlaceholderAll: getText('TEXT_SEARCH_PLACEHOLDER_ALL', DEFAULT_CONFIG.searchPlaceholderAll)
+        searchPlaceholderAll: getText('TEXT_SEARCH_PLACEHOLDER_ALL', DEFAULT_CONFIG.searchPlaceholderAll),
+        buttonClearAll: getText('TEXT_BUTTON_CLEAR_ALL', DEFAULT_CONFIG.buttonClearAll),
+        errorDateAll: getText('TEXT_ERROR_DATE', DEFAULT_CONFIG.errorDateAll),
+        paginationPreviousAll: getText('TEXT_PAGINATION_PREVIOUS_ALL', DEFAULT_CONFIG.paginationPreviousAll),
+        paginationNextAll: getText('TEXT_PAGINATION_NEXT_ALL', DEFAULT_CONFIG.paginationNextAll),
+        resultsCountSuffixAll: getText('TEXT_RESULTS_COUNT_SUFFIX_ALL', DEFAULT_CONFIG.resultsCountSuffixAll)
       };
     } catch (err) {
       console.warn('[ConfigService] Could not load from SharePoint, using defaults:', err);

@@ -22,4 +22,9 @@ export interface IBirthdayConfig {
   buttonSearchAll: string;
   searchLabelAll: string;
   searchPlaceholderAll: string;
+  buttonClearAll: string;
+  errorDateAll: string;
+  paginationPreviousAll: string;
+  paginationNextAll: string;
+  resultsCountSuffixAll: string;
 }

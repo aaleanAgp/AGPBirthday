@@ -106,12 +106,12 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
     const endCandidate = endDateInput.trim();
 
     if (startCandidate && !parseDayMonthInput(startCandidate)) {
-      setValidationError('La fecha inicial debe tener formato dd/mm.');
+      setValidationError(state.config?.errorDateAll || 'La fecha debe tener formato dd/mm.');
       return;
     }
 
     if (endCandidate && !parseDayMonthInput(endCandidate)) {
-      setValidationError('La fecha final debe tener formato dd/mm.');
+      setValidationError(state.config?.errorDateAll || 'La fecha debe tener formato dd/mm.');
       return;
     }
 
@@ -232,7 +232,7 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
             {state.config.buttonSearchAll}
           </button>
           <button type="button" className={styles.secondaryButton} onClick={handleClearFilters}>
-            Limpiar filtros
+            {state.config.buttonClearAll}
           </button>
         </div>
 
@@ -245,7 +245,7 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
 
       <section className={styles.resultsHeader}>
         <p className={styles.resultsText}>
-          {filteredPeople.length} cumpleaneros encontrados
+          {filteredPeople.length} {state.config.resultsCountSuffixAll}
         </p>
         {(appliedStartDate || appliedEndDate || searchTerm.trim()) && (
           <p className={styles.resultsHint}>
@@ -272,7 +272,7 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
-                Anterior
+                {state.config.paginationPreviousAll}
               </button>
 
               <span className={styles.pageStatus}>
@@ -285,7 +285,7 @@ const BirthdayAll: React.FC<IBirthdayAllProps> = ({
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
-                Siguiente
+                {state.config.paginationNextAll}
               </button>
             </nav>
           )}

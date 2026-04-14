@@ -16,15 +16,16 @@ export function buildMailContent(
   senderEmail: string,
   personalMessage: string
 ): IMailContent {
+  const senderNameUpper = (senderName || '').toUpperCase();
   const replace = (template: string): string =>
     template
       .replace(/\{nombre\}/gi, recipientName)
       .replace(/\{mensaje\}/gi, personalMessage)
-      .replace(/\{remitente\}/gi, senderName)
+      .replace(/\{remitente\}/gi, senderNameUpper)
       .replace(/\{correoRemitente\}/gi, senderEmail)
       .replace(/\{destinatario\}/gi, recipientName)
       .replace(/\{correoDestinatario\}/gi, recipientEmail)
-      .replace(/\[From\]/gi, senderName)
+      .replace(/\[From\]/gi, senderNameUpper)
       .replace(/\[FromEmail\]/gi, senderEmail)
       .replace(/\[To\]/gi, recipientName)
       .replace(/\[ToEmail\]/gi, recipientEmail)
