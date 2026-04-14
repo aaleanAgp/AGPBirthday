@@ -10,10 +10,6 @@ export class BirthdayWidgetError extends Error {
   }
 }
 
-/**
- * Wraps any error into a BirthdayWidgetError with context info.
- * Always logs to console. Safe to call from catch blocks.
- */
 export function handleError(error: unknown, context: string): BirthdayWidgetError {
   if (error instanceof BirthdayWidgetError) return error;
   const message = error instanceof Error ? error.message : String(error);

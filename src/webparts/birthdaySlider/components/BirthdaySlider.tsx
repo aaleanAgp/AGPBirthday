@@ -35,15 +35,6 @@ const INITIAL_STATE: IState = {
   successMessage: null
 };
 
-/**
- * Root component for the Birthday Slider web part.
- *
- * Responsibilities:
- *   - Loads data in parallel (config, people, card templates) on mount
- *   - Manages modal open/close and sending state
- *   - Delegates rendering to specialised child components
- *   - Delegates business logic to injected services (from WebPart class)
- */
 const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
   const [state, setState] = useState<IState>(INITIAL_STATE);
 
@@ -56,7 +47,6 @@ const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
     context
   } = props;
 
-  // ── Data loading ──────────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false;
 
@@ -72,8 +62,6 @@ const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
 
         if (cancelled) return;
 
-        // If config provides the limit, re-fetch people with the correct cap
-        // (or simply slice here for the MVP)
         const limitedPeople = people.slice(0, config.numberOfBirthdays);
 
         setState(s => ({
@@ -98,7 +86,6 @@ const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
     return () => { cancelled = true; };
   }, []);
 
-  // ── Handlers ──────────────────────────────────────────────────────────────
   const handleGreetClick = useCallback((person: IBirthdayPerson): void => {
     setState(s => ({
       ...s,
@@ -119,8 +106,6 @@ const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
     const { selectedPerson, config } = state;
     if (!selectedPerson || !config) return;
 
-    // TODO: Use context.pageContext.user.email for the actual sender.
-    // Falls back to emailPopup from config if user email unavailable (local workbench).
     const senderEmail: string =
       (context.pageContext && context.pageContext.user && context.pageContext.user.email)
         ? context.pageContext.user.email
@@ -153,15 +138,13 @@ const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
         successMessage: config.messageSuccess
       }));
 
-      // Auto-dismiss success banner after 5 seconds
       setTimeout(() => setState(s => ({ ...s, successMessage: null })), 5000);
     } catch (err) {
       setState(s => ({ ...s, sending: false }));
-      throw err; // Propagate to modal so it can show the warning message
+      throw err;
     }
   }, [state.selectedPerson, state.config, greetingService, context]);
 
-  // ── Render ────────────────────────────────────────────────────────────────
   const { loading, error, config, people, cardTemplates, modalOpen, selectedPerson, sending, successMessage } = state;
 
   if (loading) {
@@ -202,6 +185,7 @@ const BirthdaySlider: React.FC<IBirthdaySliderProps> = (props) => {
         <BirthdayCarousel
           people={people}
           siteUrl={siteUrl}
+          config={config}
           onGreetClick={handleGreetClick}
         />
       )}

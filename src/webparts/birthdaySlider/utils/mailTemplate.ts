@@ -8,17 +8,6 @@ export interface IMailContent {
   fromEmail: string;
 }
 
-/**
- * Merges a card template with recipient info and a personal message
- * to produce the final email content.
- *
- * Supported template variables (case-insensitive):
- *   {nombre}  → recipient's full name
- *   {mensaje} → personal message written by the sender
- *
- * TODO: Confirm actual variable names used in Tarjeta list with the
- * business team. The legacy system may use different placeholders.
- */
 export function buildMailContent(
   card: IGreetingCardTemplate,
   recipientName: string,

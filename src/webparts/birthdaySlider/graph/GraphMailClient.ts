@@ -12,18 +12,6 @@ export interface IGraphMailClient {
   sendMail(message: IMailMessage): Promise<void>;
 }
 
-/**
- * Sends an email via Microsoft Graph /me/sendMail (delegated permission).
- *
- * PREREQUISITE: The following API permission must be approved in the
- * SharePoint admin center → API access page:
- *   Microsoft Graph → Mail.Send
- *
- * The email is sent AS the currently logged-in user.
- * The mail is NOT saved to Sent Items (saveToSentItems: false).
- *
- * TODO: Confirm with tenant admin that Mail.Send has been approved.
- */
 export class GraphMailClient implements IGraphMailClient {
   constructor(private readonly context: WebPartContext) {}
 
@@ -53,10 +41,6 @@ export class GraphMailClient implements IGraphMailClient {
   }
 }
 
-/**
- * Mock implementation — simulates a send without calling Graph.
- * Use during development until Mail.Send permission is approved.
- */
 export class MockGraphMailClient implements IGraphMailClient {
   async sendMail(message: IMailMessage): Promise<void> {
     console.log('[MockGraphMailClient] Simulating email send:', message);

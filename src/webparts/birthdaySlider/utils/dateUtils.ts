@@ -1,6 +1,3 @@
-/**
- * Formats a birthday for display as "15 de Marzo".
- */
 export function formatBirthdayDate(day: number, month: number): string {
   const monthNames = [
     'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
@@ -9,11 +6,6 @@ export function formatBirthdayDate(day: number, month: number): string {
   return `${monthNames[month - 1].toUpperCase()}., ${day}`;
 }
 
-/**
- * Parses a SharePoint ISO date string into day/month/year components.
- * SharePoint returns dates as "YYYY-MM-DDTHH:mm:ssZ".
- * Returns null if the string is invalid or empty.
- */
 export function parseSPDate(dateStr: string): { day: number; month: number; year: number } | null {
   if (!dateStr) return null;
   try {
@@ -29,18 +21,11 @@ export function parseSPDate(dateStr: string): { day: number; month: number; year
   }
 }
 
-/**
- * Returns true if today (local time) matches the given day and month.
- */
 export function isTodayBirthday(day: number, month: number): boolean {
   const today = new Date();
   return today.getDate() === day && today.getMonth() + 1 === month;
 }
 
-/**
- * Returns the number of calendar days from today until the next
- * occurrence of the given birthday (day + month). Returns 0 if today.
- */
 export function daysUntilBirthday(day: number, month: number): number {
   const today = new Date();
   const year = today.getFullYear();

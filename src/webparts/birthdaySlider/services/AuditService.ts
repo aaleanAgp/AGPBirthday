@@ -5,13 +5,6 @@ export interface IAuditService {
   recordGreeting(audit: IGreetingAudit): Promise<void>;
 }
 
-/**
- * Writes a greeting audit record to the legacy "Auditoria" SharePoint list.
- *
- * Expected legacy columns:
- *   Title (shown as "Ver Detalle"), RemitenteId, DestinatarioId,
- *   Fecha, IdTarjetaId, Mensaje, Enviado, CuerpoCorreo
- */
 export class AuditService implements IAuditService {
   constructor(
     private readonly repository: ISharePointRepository,

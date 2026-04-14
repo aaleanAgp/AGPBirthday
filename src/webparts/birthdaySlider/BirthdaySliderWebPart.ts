@@ -10,18 +10,14 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'BirthdaySliderWebPartStrings';
 
-// Root component
 import BirthdaySlider from './components/BirthdaySlider';
 import { IBirthdaySliderProps } from './components/IBirthdaySliderProps';
 
-// Repositories
 import { SharePointRepository } from './repositories/SharePointRepository';
 import { MockLoggerRepository } from './repositories/LoggerRepository';
 
-// Graph
 import { MockGraphMailClient, GraphMailClient } from './graph/GraphMailClient';
 
-// Services — use Mock* until SharePoint lists are provisioned and Graph permission approved
 import {
   BirthdayService,
   MockBirthdayService,
@@ -40,10 +36,6 @@ import {
 import { GreetingService, IGreetingService } from './services/GreetingService';
 import { AuditService, MockAuditService } from './services/AuditService';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// TOGGLE: Set to true to connect to real SharePoint lists and Microsoft Graph.
-// Keep false during development or when lists / API permissions are not ready.
-// ─────────────────────────────────────────────────────────────────────────────
 const USE_REAL_DATA = true;
 
 export interface IBirthdaySliderWebPartProps {
@@ -58,7 +50,6 @@ export interface IBirthdaySliderWebPartProps {
 export default class BirthdaySliderWebPart extends BaseClientSideWebPart<IBirthdaySliderWebPartProps> {
   private _isDarkTheme = false;
 
-  // Service instances — initialised once in onInit, reused across renders
   private _birthdayService: IBirthdayService;
   private _configService: IConfigService;
   private _cardTemplateService: ICardTemplateService;
@@ -69,10 +60,6 @@ export default class BirthdaySliderWebPart extends BaseClientSideWebPart<IBirthd
     return super.onInit();
   }
 
-  /**
-   * Builds service graph.
-   * Swap Mock* → real implementations by flipping USE_REAL_DATA.
-   */
   private _initServices(): void {
     const resolvedSiteUrl =
       this.properties.siteUrl ||
@@ -80,7 +67,7 @@ export default class BirthdaySliderWebPart extends BaseClientSideWebPart<IBirthd
 
     if (USE_REAL_DATA) {
       const spRepo = new SharePointRepository(this.context, resolvedSiteUrl);
-      const logger = new MockLoggerRepository(); // TODO: swap for LoggerRepository(spRepo, logListName)
+      const logger = new MockLoggerRepository();
 
       const auditService = new AuditService(spRepo, this.properties.auditListName || 'Auditoria');
       const mailClient = new GraphMailClient(this.context);
@@ -94,9 +81,8 @@ export default class BirthdaySliderWebPart extends BaseClientSideWebPart<IBirthd
       this._cardTemplateService = new CardTemplateService(spRepo, this.properties.cardListName || 'Tarjeta');
       this._greetingService = new GreetingService(mailClient, auditService);
 
-      void logger; // reference kept to avoid unused-var lint warning
+      void logger;
     } else {
-      // ── MOCK MODE (default for MVP phase) ──────────────────────────────────
       const auditService = new MockAuditService();
       const mailClient   = new MockGraphMailClient();
 

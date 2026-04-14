@@ -17,12 +17,6 @@ export interface IGreetingService {
   sendGreeting(payload: IGreetingPayload): Promise<void>;
 }
 
-/**
- * Orchestrates the greeting flow:
- *   1. Builds the mail content from the card template + recipient info.
- *   2. Sends via Microsoft Graph.
- *   3. Records the audit (non-blocking — audit failures do not fail the send).
- */
 export class GreetingService implements IGreetingService {
   constructor(
     private readonly mailClient: IGraphMailClient,
@@ -41,7 +35,6 @@ export class GreetingService implements IGreetingService {
       toName: mail.toName
     });
 
-    // Fire-and-forget: audit should not block or fail the greeting
     this.auditService
       .recordGreeting({
         recipientName: recipient.name,

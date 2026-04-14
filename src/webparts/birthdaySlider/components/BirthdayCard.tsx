@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { IBirthdayPerson } from '../models/BirthdayPerson';
+import { IBirthdayConfig } from '../models/BirthdayConfig';
 import { isGreetingEnabled } from '../utils/birthdayRules';
 import { formatBirthdayDate } from '../utils/dateUtils';
 import { getProfilePhotoUrl, getFallbackPhotoUrl } from '../utils/photoUtils';
@@ -8,10 +9,11 @@ import styles from '../styles/BirthdayCard.module.scss';
 interface IBirthdayCardProps {
   person: IBirthdayPerson;
   siteUrl: string;
+  config: IBirthdayConfig;
   onGreetClick: (person: IBirthdayPerson) => void;
 }
 
-const BirthdayCard: React.FC<IBirthdayCardProps> = ({ person, siteUrl, onGreetClick }) => {
+const BirthdayCard: React.FC<IBirthdayCardProps> = ({ person, siteUrl, config, onGreetClick }) => {
   const [imgError, setImgError] = React.useState<boolean>(false);
 
   const greetEnabled = isGreetingEnabled(person);
@@ -46,9 +48,9 @@ const BirthdayCard: React.FC<IBirthdayCardProps> = ({ person, siteUrl, onGreetCl
             ? `Enviar saludo a ${person.name}`
             : `El saludo está disponible únicamente el día del cumpleaños de ${person.name}`
         }
-        title={greetEnabled ? '¡Envía un saludo!' : 'Disponible el día del cumpleaños'}
+        title={greetEnabled ? config.buttonSend : 'Disponible el día del cumpleaños'}
       >
-        ¡Envía un saludo!
+        {config.buttonSend}
       </button>
     </div>
   );

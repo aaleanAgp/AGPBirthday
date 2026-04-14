@@ -1,9 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 
-// Index signature removed: requiring [key: string]: unknown on T
-// forces all typed interfaces to declare unknown values for every key,
-// which breaks strict internal interfaces. The Id constraint is sufficient.
 export interface IListItem {
   Id: number;
 }
@@ -20,10 +17,6 @@ export interface ISharePointRepository {
   addListItem<T>(listName: string, item: Record<string, unknown>): Promise<T>;
 }
 
-/**
- * Thin wrapper around SPHttpClient for standard SharePoint REST API operations.
- * All list names are URL-encoded to support names with spaces or special characters.
- */
 export class SharePointRepository implements ISharePointRepository {
   constructor(
     private readonly context: WebPartContext,

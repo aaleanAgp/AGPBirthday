@@ -18,17 +18,6 @@ interface IGreetingModalProps {
   onSend: (card: IGreetingCardTemplate, message: string) => Promise<void>;
 }
 
-/**
- * Modal for composing and sending a birthday greeting.
- *
- * Flow:
- *   1. User selects a card template (radio group)
- *   2. User types a personal message (textarea)
- *   3. Validation on submit - both fields required
- *   4. Calls onSend() which delegates to GreetingService
- *
- * All display texts come from IBirthdayConfig (loaded from SharePoint Configuracion list).
- */
 const GreetingModal: React.FC<IGreetingModalProps> = ({
   person,
   config,
@@ -84,14 +73,13 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
     <div className={styles.overlay} onClick={handleOverlayClick} role="dialog" aria-modal="true">
       <div className={styles.modal}>
 
-        {/* Close button */}
         <button
           className={styles.closeButton}
           onClick={onClose}
           disabled={isSending}
           aria-label="Cerrar"
         >
-          x
+          ×
         </button>
 
         <img
@@ -102,7 +90,6 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
 
         <div className={styles.body}>
 
-          {/* Recipient info */}
           <div className={styles.profileInfo}>
             <div className={styles.profileContent}>
               <img
@@ -117,15 +104,14 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
                 </p>
                 <h5 className={styles.profileName}>{person.name}</h5>
                 <p>{person.jobTitle}</p>
-                <p>Contacto: {person.email}</p>
+                <p>{config.emailPopup} {person.email}</p>
               </div>
             </div>
           </div>
 
-          <h4 className={styles.sectionTitle}>!HOY ES SU CUMPLEANOS!</h4>
+          <h4 className={styles.sectionTitle}>{config.titlePopup}</h4>
 
-          {/* Personal message */}
-          <p className={styles.messageLabel}>Enviale un saludo aqui:</p>
+          <p className={styles.messageLabel}>{config.subtitlePopup}</p>
           <div className={styles.textareaWrapper}>
             <textarea
               className={styles.textarea}
@@ -138,11 +124,9 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
               maxLength={500}
               rows={4}
             />
-            {/* The little lines at the bottom right of the textarea are native resize handles */}
           </div>
 
-          {/* Card template selection */}
-          <p className={styles.messageLabel}>Elige un diseno para tu tarjeta de saludo:</p>
+          <p className={styles.messageLabel}>{config.descriptionPopup}</p>
           <div className={styles.cardOptions}>
             {cardTemplates.map(card => (
               <label
@@ -174,7 +158,6 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
             ))}
           </div>
 
-          {/* Validation / send errors */}
           {validationError && (
             <p className={styles.errorMsg} role="alert">{validationError}</p>
           )}
@@ -182,7 +165,6 @@ const GreetingModal: React.FC<IGreetingModalProps> = ({
             <p className={styles.errorMsg} role="alert">{sendError}</p>
           )}
 
-          {/* Actions */}
           <div className={styles.buttons}>
             <button
               className={styles.btnCancel}
